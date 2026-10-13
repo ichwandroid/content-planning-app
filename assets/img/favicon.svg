@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Content Planner Sekolah Anak Saleh">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0F766E"/>
+      <stop offset="100%" stop-color="#14A398"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#C9A227"/>
+      <stop offset="100%" stop-color="#E0B944"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#g)"/>
+  <g fill="none" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1.2">
+    <rect x="16" y="16" width="32" height="32" rx="5"/>
+    <rect x="16" y="16" width="32" height="32" rx="5" transform="rotate(45 32 32)"/>
+  </g>
+  <path d="M32 13 51 23v11c0 11-8 19-19 23-11-4-19-12-19-23V23L32 13Z" fill="none" stroke="url(#gold)" stroke-width="2.6"/>
+  <path d="M23 33h18M32 24v18" stroke="#FFFFFF" stroke-opacity=".65" stroke-width="2.2" stroke-linecap="round"/>
+  <circle cx="32" cy="33" r="6" fill="none" stroke="#FFFFFF" stroke-width="2.6"/>
+</svg>

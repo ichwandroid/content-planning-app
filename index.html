@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Content Planner Sekolah Anak Saleh</title>
+<meta name="description" content="Perencana konten sosial media + analitik untuk Sekolah Anak Saleh. Terhubung langsung ke Google Sheet: rencanakan, tambahkan CTA, tayangkan, lalu ukur performanya." />
+<meta name="theme-color" content="#0F766E" />
+<meta name="color-scheme" content="light" />
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/img/favicon.svg" />
+<meta property="og:title" content="Content Planner Sekolah Anak Saleh" />
+<meta property="og:description" content="Rencanakan konten, tambahkan CTA, analisis performa — tersambung ke Google Sheet tanpa API." />
+<meta property="og:type" content="website" />
+<link rel="stylesheet" href="assets/css/style.css" />
+<!-- compat.css = lapisan penjembatan nama kelas antara markup/JS dan style.css.
+     WAJIB dimuat SETELAH style.css. -->
+<link rel="stylesheet" href="assets/css/compat.css" />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="preconnect" href="https://docs.google.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" media="print" onload="this.media='all'" />
+<noscript><p style="padding:24px;font-family:system-ui">Aplikasi ini memerlukan JavaScript untuk berjalan.</p></noscript>
+</head>
+<body>
+
+<!-- ============================ BOOT / SPLASH ============================ -->
+<div id="boot-overlay" class="boot-overlay" role="status" aria-live="polite">
+  <div class="boot-inner">
+    <div class="boot-logo" aria-hidden="true">
+      <svg viewBox="0 0 64 64" width="72" height="72" role="img" aria-label="Logo Sekolah Anak Saleh">
+        <defs>
+          <linearGradient id="bootGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#E0B944" /><stop offset="100%" stop-color="#0F766E" />
+          </linearGradient>
+        </defs>
+        <path d="M32 4 58 18v12c0 14-11 25-26 30C17 55 6 44 6 30V18L32 4Z" fill="none" stroke="url(#bootGrad)" stroke-width="3" />
+        <path d="M20 32h24M32 20v24" stroke="url(#bootGrad)" stroke-width="2.5" stroke-linecap="round" opacity=".7" />
+        <circle cx="32" cy="32" r="7" fill="none" stroke="#FBFAF6" stroke-width="2.5" />
+      </svg>
+    </div>
+    <h1 class="boot-title"><span>Content</span> <span>Planner</span> <span>Sekolah</span> <span>Anak</span> <span>Saleh</span></h1>
+    <p class="boot-sub">Rencanakan • Tambahkan CTA • Tayangkan • Ukur hasilnya</p>
+    <div class="boot-bar"><div class="boot-bar__fill"></div></div>
+  </div>
+</div>
+
+<!-- ================================ APP ================================== -->
+<div id="app-shell" class="app is-hidden">
+
+  <!-- ------------------------------ TOPBAR ------------------------------ -->
+  <header class="topbar" id="topbar">
+    <div class="topbar__left">
+      <button class="icon-btn sidebar-toggle" id="btn-sidebar" type="button" aria-label="Buka menu" aria-expanded="false"></button>
+      <a class="brand" href="#planner">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="34" height="34">
+            <path d="M20 3 35 11v8c0 9-7 16-15 19C12 35 5 28 5 19v-8L20 3Z" fill="none" stroke="#0F766E" stroke-width="2.4" />
+            <circle cx="20" cy="19" r="4.6" fill="none" stroke="#C9A227" stroke-width="2.4" />
+          </svg>
+        </span>
+        <span class="brand__text">
+          <strong id="brand-title">Content Planner</strong>
+          <small id="brand-sub">Sekolah Anak Saleh</small>
+        </span>
+      </a>
+      <span class="mode-badge is-hidden" id="mode-badge" title="Data disimpan di browser, bukan di Google Sheet">Mode Demo</span>
+    </div>
+
+    <div class="topbar__center">
+      <label class="search" for="global-search">
+        <span class="search__icon" aria-hidden="true"></span>
+        <input id="global-search" type="search" placeholder="Cari judul, caption, hashtag, CTA, PIC…" autocomplete="off" />
+        <kbd class="kbd">/</kbd>
+      </label>
+    </div>
+
+    <div class="topbar__right">
+      <div class="sync-status" id="sync-status" role="status" aria-live="polite">
+        <span class="sync-dot" id="sync-dot"></span>
+        <span class="sync-text" id="sync-text">Memuat…</span>
+      </div>
+      <button class="icon-btn" id="btn-refresh" type="button" title="Sinkronkan ulang dari Google Sheet" aria-label="Sinkronkan ulang"></button>
+      <button class="btn btn--primary" id="btn-new" type="button">
+        <span class="btn__icon" aria-hidden="true"></span> Konten Baru
+      </button>
+    </div>
+  </header>
+
+  <!-- ------------------------------ SIDEBAR ----------------------------- -->
+  <nav class="sidebar" id="sidebar" aria-label="Navigasi utama">
+    <ul class="nav" id="nav">
+      <li><a href="#planner" class="nav__item is-active" data-view="planner"><span class="nav__icon" data-icon="grid"></span><span class="nav__label">Planner</span></a></li>
+      <li><a href="#calendar" class="nav__item" data-view="calendar"><span class="nav__icon" data-icon="calendar"></span><span class="nav__label">Kalender</span></a></li>
+      <li><a href="#analytics" class="nav__item" data-view="analytics"><span class="nav__icon" data-icon="chart"></span><span class="nav__label">Analitik</span></a></li>
+      <li><a href="#cta" class="nav__item" data-view="cta"><span class="nav__icon" data-icon="megaphone"></span><span class="nav__label">Library CTA</span></a></li>
+      <li><a href="#settings" class="nav__item" data-view="settings"><span class="nav__icon" data-icon="settings"></span><span class="nav__label">Pengaturan</span></a></li>
+    </ul>
+
+    <div class="sidebar__foot">
+      <div class="sidebar-card" id="sidebar-card">
+        <h4>Ritme Produksi</h4>
+        <p><strong id="sb-week">0</strong> konten minggu ini</p>
+        <div class="progress"><div class="progress__track"><div class="progress__fill" id="sb-progress" style="--w:0%"></div></div></div>
+        <p class="muted small" id="sb-target">Target: 3 konten / minggu</p>
+      </div>
+      <div class="sidebar-card sidebar-card--sync">
+        <h4>Koneksi Sheet</h4>
+        <p class="small" id="sb-source">Memeriksa…</p>
+        <p class="small" id="sb-pending"></p>
+        <button class="btn btn--ghost btn--sm btn--block" id="btn-flush" type="button">Kirim antrean</button>
+      </div>
+      <p class="version">v<span id="app-version">1.0.0</span> • <a href="#settings">Pengaturan</a></p>
+    </div>
+  </nav>
+
+  <!-- ------------------------------- MAIN ------------------------------- -->
+  <main class="main" id="main">
+
+    <!-- =========================== VIEW: PLANNER ======================== -->
+    <section class="view" id="view-planner" aria-labelledby="planner-title">
+      <div class="view-head" data-anim-view>
+        <div>
+          <h2 id="planner-title">Planner Konten</h2>
+          <p class="muted">Rencanakan konten, lengkapi CTA, lalu pantau performanya dalam satu tempat.</p>
+        </div>
+        <div class="view-head__actions">
+          <button class="btn btn--ghost btn--sm" id="btn-export-csv" type="button">Ekspor CSV</button>
+          <button class="btn btn--gold btn--sm" id="btn-ideas" type="button">Ide Konten AI</button>
+        </div>
+      </div>
+
+      <div class="stats-grid" id="stats-grid"></div>
+
+      <div class="toolbar-sentinel" id="toolbar-sentinel" aria-hidden="true"></div>
+      <div class="toolbar" id="toolbar">
+        <div class="toolbar__group">
+          <label class="select-wrap">
+            <span class="sr-only">Urutkan</span>
+            <select id="filter-sort" class="input input--sm">
+              <option value="tanggal">Tanggal tayang</option>
+              <option value="judul">Judul</option>
+              <option value="platform">Platform</option>
+              <option value="pilar">Pilar</option>
+              <option value="status">Status</option>
+              <option value="views">Views</option>
+              <option value="likes">Likes</option>
+              <option value="pendaftar">Pendaftar</option>
+            </select>
+          </label>
+          <label class="select-wrap">
+            <span class="sr-only">Rentang waktu</span>
+            <select id="filter-range" class="input input--sm">
+              <option value="all">Semua waktu</option>
+              <option value="7">7 hari terakhir</option>
+              <option value="30">30 hari terakhir</option>
+              <option value="90">90 hari terakhir</option>
+            </select>
+          </label>
+          <button class="btn btn--ghost btn--sm" id="btn-filters" type="button" aria-expanded="false">Filter lanjutan</button>
+        </div>
+        <div class="toolbar__group">
+          <span class="toolbar__count" id="result-count">0 konten</span>
+          <div class="seg" role="group" aria-label="Tata letak">
+            <button class="seg-btn is-active" data-layout="grid" type="button" aria-label="Tampilan kartu"></button>
+            <button class="seg-btn" data-layout="list" type="button" aria-label="Tampilan daftar"></button>
+            <button class="seg-btn" data-layout="board" type="button" aria-label="Tampilan papan status"></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-bar is-collapsed" id="filter-bar" hidden>
+        <div class="filter-group" data-filter="platform"><span class="filter-group__label">Platform</span><div class="filter-chips" data-chips="platform"></div></div>
+        <div class="filter-group" data-filter="status"><span class="filter-group__label">Status</span><div class="filter-chips" data-chips="status"></div></div>
+        <div class="filter-group" data-filter="pilar"><span class="filter-group__label">Pilar</span><div class="filter-chips" data-chips="pilar"></div></div>
+        <div class="filter-group" data-filter="pic"><span class="filter-group__label">PIC</span><div class="filter-chips" data-chips="pic"></div></div>
+        <div class="filter-group filter-group--actions">
+          <button class="btn btn--ghost btn--sm" id="btn-reset-filter" type="button">Reset filter</button>
+        </div>
+      </div>
+
+      <div class="bulk-bar is-hidden" id="bulk-bar">
+        <span id="bulk-count">0 dipilih</span>
+        <div class="bulk-bar__actions">
+          <button class="btn btn--ghost btn--sm" data-bulk-status="review" type="button">Tandai Review</button>
+          <button class="btn btn--ghost btn--sm" data-bulk-status="siap" type="button">Tandai Siap</button>
+          <button class="btn btn--ghost btn--sm" data-bulk-status="tayang" type="button">Tandai Tayang</button>
+          <button class="btn btn--danger btn--sm" id="btn-bulk-delete" type="button">Hapus</button>
+          <button class="btn btn--ghost btn--sm" id="btn-clear-selection" type="button">Batal</button>
+        </div>
+      </div>
+
+      <div class="planner-grid" id="planner-grid" data-layout="grid"></div>
+    </section>
+
+    <!-- =========================== VIEW: CALENDAR ======================= -->
+    <section class="view is-hidden" id="view-calendar" aria-labelledby="calendar-title">
+      <div class="view-head" data-anim-view>
+        <div>
+          <h2 id="calendar-title">Kalender Editorial</h2>
+          <p class="muted">Seret kartu ke tanggal lain untuk menjadwal ulang (drag &amp; drop).</p>
+        </div>
+        <div class="view-head__actions">
+          <button class="icon-btn" id="cal-prev" type="button" aria-label="Bulan sebelumnya">‹</button>
+          <strong id="cal-title" class="cal-title">Bulan</strong>
+          <button class="icon-btn" id="cal-next" type="button" aria-label="Bulan berikutnya">›</button>
+          <button class="btn btn--ghost btn--sm" id="cal-today" type="button">Hari ini</button>
+          <button class="btn btn--ghost btn--sm" id="btn-print" type="button">Cetak</button>
+        </div>
+      </div>
+      <div class="calendar-legend" id="cal-legend" data-anim-view></div>
+      <div class="calendar" id="calendar" data-anim-view></div>
+    </section>
+
+    <!-- =========================== VIEW: ANALYTICS ====================== -->
+    <section class="view is-hidden" id="view-analytics" aria-labelledby="analytics-title">
+      <div class="view-head" data-anim-view>
+        <div>
+          <h2 id="analytics-title">Analitik &amp; Rekomendasi</h2>
+          <p class="muted">Semua angka dihitung dari metrik di Google Sheet — lengkapi metrik agar analisis makin tajam.</p>
+        </div>
+        <div class="view-head__actions">
+          <label class="select-wrap">
+            <span class="sr-only">Periode</span>
+            <select id="an-range" class="input input--sm">
+              <option value="30">30 hari</option>
+              <option value="90" selected>90 hari</option>
+              <option value="180">6 bulan</option>
+              <option value="all">Semua data</option>
+            </select>
+          </label>
+          <button class="btn btn--ghost btn--sm" id="btn-recheck" type="button">Muat ulang data</button>
+        </div>
+      </div>
+      <div class="analytics-grid" id="analytics-root"></div>
+    </section>
+
+    <!-- ============================= VIEW: CTA ========================== -->
+    <section class="view is-hidden" id="view-cta" aria-labelledby="cta-title">
+      <div class="view-head" data-anim-view>
+        <div>
+          <h2 id="cta-title">Library CTA &amp; Generator</h2>
+          <p class="muted">Call-to-action siap pakai sesuai tujuan: awareness, engagement, consideration, conversion.</p>
+        </div>
+        <div class="view-head__actions">
+          <label class="select-wrap">
+            <span class="sr-only">Saring tujuan CTA</span>
+            <select id="cta-goal" class="input input--sm">
+              <option value="all">Semua tujuan</option>
+              <option value="awareness">Awareness</option>
+              <option value="engagement">Engagement</option>
+              <option value="consideration">Consideration</option>
+              <option value="conversion">Conversion</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="cta-layout" id="cta-root"></div>
+    </section>
+
+    <!-- =========================== VIEW: SETTINGS ======================= -->
+    <section class="view is-hidden" id="view-settings" aria-labelledby="settings-title">
+      <div class="view-head" data-anim-view>
+        <div>
+          <h2 id="settings-title">Pengaturan &amp; Koneksi Database</h2>
+          <p class="muted">Hubungkan aplikasi ke Google Sheet (tanpa API) dan atur identitas sekolah.</p>
+        </div>
+      </div>
+      <div class="settings-grid" id="settings-root"></div>
+    </section>
+
+    <footer class="app-footer">
+      <p>
+        <strong>Content Planner Sekolah Anak Saleh</strong> — data tersimpan di Google Sheet Anda.
+        <span class="muted">Dibuat untuk tim media sekolah: rencanakan, tambahkan CTA, ukur, perbaiki.</span>
+      </p>
+    </footer>
+  </main>
+</div>
+
+<!-- ============================== DRAWER EDITOR ========================== -->
+<div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" hidden>
+  <header class="drawer__head">
+    <div>
+      <h3 id="drawer-title">Konten Baru</h3>
+      <p class="muted small" id="drawer-sub">Lengkapi detail konten lalu simpan ke Google Sheet.</p>
+    </div>
+    <button class="icon-btn" id="drawer-close" type="button" aria-label="Tutup"></button>
+  </header>
+  <div class="drawer__tabs tabs" role="tablist" id="drawer-tabs">
+    <button class="tab is-active" data-tab="detail" role="tab" type="button">Detail</button>
+    <button class="tab" data-tab="caption" role="tab" type="button">Caption &amp; Hashtag</button>
+    <button class="tab" data-tab="cta" role="tab" type="button">CTA</button>
+    <button class="tab" data-tab="metrik" role="tab" type="button">Metrik</button>
+    <button class="tab" data-tab="analisis" role="tab" type="button">Analisis</button>
+  </div>
+  <form class="drawer__body" id="content-form" novalidate></form>
+  <footer class="drawer__foot">
+    <span class="drawer__hint" id="drawer-hint">Perubahan langsung dikirim ke Sheet.</span>
+    <div class="drawer__actions">
+      <button class="btn btn--ghost" id="form-cancel" type="button">Batal</button>
+      <button class="btn btn--primary" id="form-save" type="submit" form="content-form">Simpan Konten</button>
+    </div>
+  </footer>
+</aside>
+
+<!-- ============================== MODAL ================================== -->
+<div class="modal-backdrop" id="modal-backdrop" hidden></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+  <header class="modal__head">
+    <h3 id="modal-title">Detail</h3>
+    <button class="icon-btn" id="modal-close" type="button" aria-label="Tutup"></button>
+  </header>
+  <div class="modal__body" id="modal-body"></div>
+  <footer class="modal__foot" id="modal-foot"></footer>
+</div>
+
+<!-- ============================== TOASTS ================================= -->
+<div class="toast-stack" id="toast-stack" aria-live="polite" aria-atomic="false"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
