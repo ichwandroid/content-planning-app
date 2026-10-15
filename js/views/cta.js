@@ -4,7 +4,7 @@
 
 import { CTA_GOALS, CTA_TYPES, PLATFORMS, SCHOOL_PROFILE } from '../core/config.js';
 import { fmtCompact, fmtDecimal, fmtNumber, fmtPercent } from '../core/format.js';
-import { $, append, copyText, download, el, uniq } from '../core/util.js';
+import { $, append, copyText, download, el, svgIcon, uniq } from '../core/util.js';
 import * as anim from '../lib/anim.js';
 import { barChart } from '../lib/charts.js';
 
@@ -217,7 +217,7 @@ function guide() {
   tips.forEach(([title, detail, ic], i) => {
     const row = el('article', { class: 'guide-item' });
     const icEl = el('span', { class: 'guide-item__icon' });
-    icEl.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none">${ICONS[ic] || ICONS.dot}</svg>`;
+    icEl.innerHTML = svgIcon(ic, 18);
     append(row, icEl, el('div', {}, [el('strong', { text: `${i + 1}. ${title}` }), el('p', { text: detail })]));
     append(wrap, row);
   });
@@ -229,17 +229,6 @@ function guide() {
   ]), { cls: 'panel--compact' }));
   return wrap;
 }
-
-const ICONS = {
-  target: '<circle cx="12" cy="12" r="7.5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.7"/>',
-  list: '<path d="M4 6.5h16M4 12h16M4 17.5h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
-  users: '<circle cx="9.5" cy="8.5" r="3.2" stroke="currentColor" stroke-width="1.7"/><path d="M3.8 19.5c.6-3 2.9-4.8 5.7-4.8s5.1 1.8 5.7 4.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
-  clock: '<circle cx="12" cy="12" r="8.2" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
-  eye: '<path d="M2.8 12S6 6.8 12 6.8 21.2 12 21.2 12 18 17.2 12 17.2 2.8 12 2.8 12Z" stroke="currentColor" stroke-width="1.7"/>',
-  link: '<path d="M10 14a4 4 0 0 1 0-5.6l2-2a4 4 0 1 1 5.6 5.6l-1 1M14 10a4 4 0 0 1 0 5.6l-2 2A4 4 0 0 1 6.4 12l1-1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
-  comment: '<path d="M4.5 6.5A3 3 0 0 1 7.5 3.5h9a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3H10l-4 4v-4a3 3 0 0 1-3-3v-5Z" stroke="currentColor" stroke-width="1.6"/>',
-  dot: '<circle cx="12" cy="12" r="3" fill="currentColor"/>',
-};
 
 export function bindCta() {
   const sel = $('#cta-goal');

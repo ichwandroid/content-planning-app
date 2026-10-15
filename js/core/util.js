@@ -59,50 +59,53 @@ export function frag(children) {
   return append(document.createDocumentFragment(), children);
 }
 
-export function svgIcon(name, size = 20) {
-  const paths = ICONS[name] || ICONS.dot;
-  return `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" aria-hidden="true">${paths}</svg>`;
+export function faIcon(name, size = 20) {
+  const iconClass = ICONS[name] || ICONS.dot || 'fa-solid fa-circle';
+  const sizeStyle = size ? `font-size:${size}px;` : '';
+  return `<i class="${iconClass}" style="${sizeStyle}" aria-hidden="true"></i>`;
 }
 
+export const svgIcon = faIcon;
+
 export const ICONS = {
-  dashboard: '<path d="M4 13h6V4H4v9Zm10 7h6v-9h-6v9ZM4 20h6v-4H4v4Zm10-11h6V4h-6v5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
-  calendar: '<rect x="3.5" y="5" width="17" height="15" rx="3" stroke="currentColor" stroke-width="1.7"/><path d="M8 3.5V7M16 3.5V7M3.5 10h17" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
-  chart: '<path d="M4 20V4M4 20h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><rect x="7.5" y="12" width="3" height="5" rx="1" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="8" width="3" height="9" rx="1" stroke="currentColor" stroke-width="1.7"/>',
-  megaphone: '<path d="M4 10.5v3a1.5 1.5 0 0 0 1.5 1.5H7l4 3.5V7L7 10.5H5.5A1.5 1.5 0 0 0 4 12Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15 9.5a3.5 3.5 0 0 1 0 5M17.5 7a7 7 0 0 1 0 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
-  settings: '<circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M12 3.5v2M12 18.5v2M3.5 12h2M18.5 12h2M6 6l1.4 1.4M16.6 16.6 18 18M18 6l-1.4 1.4M7.4 16.6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
-  plus: '<path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
-  search: '<circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
-  refresh: '<path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v4h-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
-  instagram: '<rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.7" stroke="currentColor" stroke-width="1.7"/><circle cx="17" cy="7" r="1.1" fill="currentColor"/>',
-  tiktok: '<path d="M14 4v9.2a3.4 3.4 0 1 1-3.4-3.4M14 5.5c.6 2.2 2.2 3.6 4.5 3.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
-  youtube: '<rect x="2.8" y="6" width="18.4" height="12" rx="4" stroke="currentColor" stroke-width="1.7"/><path d="m10.5 9.8 4.2 2.5-4.2 2.4V9.8Z" fill="currentColor"/>',
-  facebook: '<path d="M14.5 8.5h2V5.8h-2.4c-2.2 0-3.6 1.4-3.6 3.7v1.6H8.2v2.8h2.3V21h3v-7.1h2.3l.4-2.8h-2.7V9.7c0-.8.4-1.2 1-1.2Z" fill="currentColor"/>',
-  whatsapp: '<path d="M12 3.8a8 8 0 0 0-6.9 12L4 20.5l4.9-1.1A8 8 0 1 0 12 3.8Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.2 9.4c.3-.7 1.4-.6 1.6 0 .2.5.8 1.4.2 1.9-.5.4.5 1.6 1.4 2 .9.4 1-.6 1.6-.9.5-.2 1.5.6 1.6 1.3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>',
-  globe: '<circle cx="12" cy="12" r="8.2" stroke="currentColor" stroke-width="1.7"/><path d="M3.8 12h16.4M12 3.8c2.2 2.4 3.2 5.2 3.2 8.2S14.2 17.8 12 20.2c-2.2-2.4-3.2-5.2-3.2-8.2S9.8 6.2 12 3.8Z" stroke="currentColor" stroke-width="1.5"/>',
-  spark: '<path d="M12 3.5 13.6 9 19 10.6 13.6 12.2 12 17.7 10.4 12.2 5 10.6 10.4 9 12 3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
-  trash: '<path d="M5.5 7h13M9.5 7V5.5h5V7M7 7l.8 12h8.4L17 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
-  edit: '<path d="M5 19h3l9-9-3-3-9 9v3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m15.5 6.5 2 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
-  copy: '<rect x="9" y="9" width="10" height="10" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M15 6.5V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h.5" stroke="currentColor" stroke-width="1.7"/>',
-  close: '<path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
-  download: '<path d="M12 4v10m0 0 3.5-3.5M12 14l-3.5-3.5M5 19h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
-  external: '<path d="M14 4h6v6M20 4l-8 8M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
-  clock: '<circle cx="12" cy="12" r="8.2" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
-  eye: '<path d="M2.8 12S6 6.8 12 6.8 21.2 12 21.2 12 18 17.2 12 17.2 2.8 12 2.8 12Z" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.6" stroke="currentColor" stroke-width="1.7"/>',
-  heart: '<path d="M12 19s-6.5-4-6.5-8.4A3.6 3.6 0 0 1 12 8.2a3.6 3.6 0 0 1 6.5 2.4C18.5 15 12 19 12 19Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
-  comment: '<path d="M4.5 6.5A3 3 0 0 1 7.5 3.5h9a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3H10l-4 4v-4h-.5a3 3 0 0 1-3-3v-5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
-  send: '<path d="M4 12 20 4l-6 16-3-6-7-2Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
-  bookmark: '<path d="M6.5 4h11v16l-5.5-4-5.5 4V4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
-  bulb: '<path d="M9.5 17h5M10 20h4M12 3.5a5.5 5.5 0 0 1 3.2 9.9c-.5.4-.7.9-.7 1.4H9.5c0-.5-.2-1-.7-1.4A5.5 5.5 0 0 1 12 3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
-  check: '<path d="m5 12.5 4.5 4.5L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
-  alert: '<path d="M12 4.5 21 19.5H3L12 4.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 10v4M12 16.8v.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
-  link: '<path d="M10 14a4 4 0 0 1 0-5.6l2-2a4 4 0 1 1 5.6 5.6l-1 1M14 10a4 4 0 0 1 0 5.6l-2 2A4 4 0 0 1 6.4 12l1-1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
-  users: '<circle cx="9.5" cy="8.5" r="3.2" stroke="currentColor" stroke-width="1.7"/><path d="M3.8 19.5c.6-3 2.9-4.8 5.7-4.8s5.1 1.8 5.7 4.8M16 5.6a3.2 3.2 0 0 1 0 6.3M17.5 19.5c-.2-1.6-.6-2.9-1.3-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
-  filter: '<path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
-  grid: '<rect x="4" y="4" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="4" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.7"/><rect x="4" y="13" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="13" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.7"/>',
-  list: '<path d="M4 6.5h16M4 12h16M4 17.5h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
-  dot: '<circle cx="12" cy="12" r="3" fill="currentColor"/>',
-  cloud: '<path d="M7 18.5h10a3.5 3.5 0 0 0 .4-7A5 5 0 0 0 7.6 9.7 3.9 3.9 0 0 0 7 18.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 12v6m0 0 2-2m-2 2-2-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
-  target: '<circle cx="12" cy="12" r="7.5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="1" fill="currentColor"/>',
+  dashboard: 'fa-solid fa-gauge-high',
+  calendar: 'fa-solid fa-calendar-days',
+  chart: 'fa-solid fa-chart-column',
+  megaphone: 'fa-solid fa-bullhorn',
+  settings: 'fa-solid fa-gear',
+  plus: 'fa-solid fa-plus',
+  search: 'fa-solid fa-magnifying-glass',
+  refresh: 'fa-solid fa-arrows-rotate',
+  instagram: 'fa-brands fa-instagram',
+  tiktok: 'fa-brands fa-tiktok',
+  youtube: 'fa-brands fa-youtube',
+  facebook: 'fa-brands fa-facebook',
+  whatsapp: 'fa-brands fa-whatsapp',
+  globe: 'fa-solid fa-globe',
+  spark: 'fa-solid fa-wand-magic-sparkles',
+  trash: 'fa-solid fa-trash-can',
+  edit: 'fa-solid fa-pen-to-square',
+  copy: 'fa-solid fa-copy',
+  close: 'fa-solid fa-xmark',
+  download: 'fa-solid fa-download',
+  external: 'fa-solid fa-arrow-up-right-from-square',
+  clock: 'fa-solid fa-clock',
+  eye: 'fa-solid fa-eye',
+  heart: 'fa-solid fa-heart',
+  comment: 'fa-solid fa-comment',
+  send: 'fa-solid fa-paper-plane',
+  bookmark: 'fa-solid fa-bookmark',
+  bulb: 'fa-solid fa-lightbulb',
+  check: 'fa-solid fa-check',
+  alert: 'fa-solid fa-triangle-exclamation',
+  link: 'fa-solid fa-link',
+  users: 'fa-solid fa-users',
+  filter: 'fa-solid fa-filter',
+  grid: 'fa-solid fa-table-cells',
+  list: 'fa-solid fa-list',
+  dot: 'fa-solid fa-circle',
+  cloud: 'fa-solid fa-cloud-arrow-up',
+  target: 'fa-solid fa-bullseye',
 };
 
 /* -------------------------------- FORMAT -------------------------------- */

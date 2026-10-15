@@ -12,6 +12,7 @@
 <meta property="og:title" content="Content Planner Sekolah Anak Saleh" />
 <meta property="og:description" content="Rencanakan konten, tambahkan CTA, analisis performa — tersambung ke Google Sheet tanpa API." />
 <meta property="og:type" content="website" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="assets/css/style.css" />
 <!-- compat.css = lapisan penjembatan nama kelas antara markup/JS dan style.css.
      WAJIB dimuat SETELAH style.css. -->
@@ -28,16 +29,7 @@
 <div id="boot-overlay" class="boot-overlay" role="status" aria-live="polite">
   <div class="boot-inner">
     <div class="boot-logo" aria-hidden="true">
-      <svg viewBox="0 0 64 64" width="72" height="72" role="img" aria-label="Logo Sekolah Anak Saleh">
-        <defs>
-          <linearGradient id="bootGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#E0B944" /><stop offset="100%" stop-color="#0F766E" />
-          </linearGradient>
-        </defs>
-        <path d="M32 4 58 18v12c0 14-11 25-26 30C17 55 6 44 6 30V18L32 4Z" fill="none" stroke="url(#bootGrad)" stroke-width="3" />
-        <path d="M20 32h24M32 20v24" stroke="url(#bootGrad)" stroke-width="2.5" stroke-linecap="round" opacity=".7" />
-        <circle cx="32" cy="32" r="7" fill="none" stroke="#FBFAF6" stroke-width="2.5" />
-      </svg>
+      <i class="fa-solid fa-graduation-cap" role="img" aria-label="Logo Sekolah Anak Saleh"></i>
     </div>
     <h1 class="boot-title"><span>Content</span> <span>Planner</span> <span>Sekolah</span> <span>Anak</span> <span>Saleh</span></h1>
     <p class="boot-sub">Rencanakan • Tambahkan CTA • Tayangkan • Ukur hasilnya</p>
@@ -54,10 +46,7 @@
       <button class="icon-btn sidebar-toggle" id="btn-sidebar" type="button" aria-label="Buka menu" aria-expanded="false"></button>
       <a class="brand" href="#planner">
         <span class="brand__mark" aria-hidden="true">
-          <svg viewBox="0 0 40 40" width="34" height="34">
-            <path d="M20 3 35 11v8c0 9-7 16-15 19C12 35 5 28 5 19v-8L20 3Z" fill="none" stroke="#0F766E" stroke-width="2.4" />
-            <circle cx="20" cy="19" r="4.6" fill="none" stroke="#C9A227" stroke-width="2.4" />
-          </svg>
+          <i class="fa-solid fa-graduation-cap"></i>
         </span>
         <span class="brand__text">
           <strong id="brand-title">Content Planner</strong>
@@ -201,9 +190,9 @@
           <p class="muted">Seret kartu ke tanggal lain untuk menjadwal ulang (drag &amp; drop).</p>
         </div>
         <div class="view-head__actions">
-          <button class="icon-btn" id="cal-prev" type="button" aria-label="Bulan sebelumnya">‹</button>
+          <button class="icon-btn" id="cal-prev" type="button" aria-label="Bulan sebelumnya"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
           <strong id="cal-title" class="cal-title">Bulan</strong>
-          <button class="icon-btn" id="cal-next" type="button" aria-label="Bulan berikutnya">›</button>
+          <button class="icon-btn" id="cal-next" type="button" aria-label="Bulan berikutnya"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
           <button class="btn btn--ghost btn--sm" id="cal-today" type="button">Hari ini</button>
           <button class="btn btn--ghost btn--sm" id="btn-print" type="button">Cetak</button>
         </div>

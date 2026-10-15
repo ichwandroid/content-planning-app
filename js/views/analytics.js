@@ -7,7 +7,7 @@ import { ANALYTICS, PILARS, PLATFORMS, PILAR_TARGET, STATUSES } from '../core/co
 import {
   fmtCompact, fmtDate, fmtDecimal, fmtNumber, fmtPercent, fmtTime, toDate,
 } from '../core/format.js';
-import { $, append, el, escapeHtml, openExternal } from '../core/util.js';
+import { $, append, el, escapeHtml, openExternal, svgIcon } from '../core/util.js';
 import * as anim from '../lib/anim.js';
 
 import {
@@ -155,7 +155,7 @@ function buildKpiRow(s, rows, audit) {
     const card = el('article', { class: `mini-stat mini-stat--${tone}` });
     const head = el('div', { class: 'mini-stat__head' });
     const iconEl = el('span', { class: 'mini-stat__icon' });
-    iconEl.innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true">${ICON_PATHS[ic] || ''}</svg>`;
+    iconEl.innerHTML = svgIcon(ic, 16);
     append(head, iconEl, el('span', { class: 'mini-stat__label', text: label }));
     append(card, head, el('strong', { class: 'mini-stat__value', text: value }), el('span', { class: 'mini-stat__sub', text: sub }));
     append(grid, card);
@@ -163,16 +163,6 @@ function buildKpiRow(s, rows, audit) {
   append(wrap, grid);
   return wrap;
 }
-
-const ICON_PATHS = {
-  grid: '<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
-  eye: '<path d="M2.8 12S6 6.8 12 6.8 21.2 12 21.2 12 18 17.2 12 17.2 2.8 12 2.8 12Z" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.6" stroke="currentColor" stroke-width="1.7"/>',
-  heart: '<path d="M12 19s-6.5-4-6.5-8.4A3.6 3.6 0 0 1 12 8.2a3.6 3.6 0 0 1 6.5 2.4C18.5 15 12 19 12 19Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
-  chart: '<path d="M4 20V4M4 20h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><rect x="7.5" y="12" width="3" height="5" rx="1" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="8" width="3" height="9" rx="1" stroke="currentColor" stroke-width="1.7"/>',
-  link: '<path d="M10 14a4 4 0 0 1 0-5.6l2-2a4 4 0 1 1 5.6 5.6l-1 1M14 10a4 4 0 0 1 0 5.6l-2 2A4 4 0 0 1 6.4 12l1-1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
-  users: '<circle cx="9.5" cy="8.5" r="3.2" stroke="currentColor" stroke-width="1.7"/><path d="M3.8 19.5c.6-3 2.9-4.8 5.7-4.8s5.1 1.8 5.7 4.8M16 5.6a3.2 3.2 0 0 1 0 6.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
-  check: '<path d="m5 12.5 4.5 4.5L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
-};
 
 function buildTrend(rows, analysis) {
   const wrap = el('div', { class: 'trend-block' });

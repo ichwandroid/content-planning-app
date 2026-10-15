@@ -26,7 +26,7 @@
 .is-error { color: var(--danger); }
 .is-ok { color: #047857; }
 .ic { display: inline-grid; place-items: center; }
-.ic svg { width: 1em; height: 1em; }
+.ic svg, .ic i { width: 1em; height: 1em; font-size: inherit; display: inline-flex; align-items: center; justify-content: center; }
 .btn__icon { display: inline-grid; place-items: center; }
 .btn--icon-only { padding: 0 9px; }
 .btn__label { white-space: nowrap; }
@@ -41,7 +41,7 @@
 .app-footer strong { color: var(--teal-900); }
 
 /* Animasi keadaan (dipakai JS) */
-.is-spinning svg { animation: compat-spin .9s linear infinite; }
+.is-spinning svg, .is-spinning i { animation: compat-spin .9s linear infinite; }
 @keyframes compat-spin { to { transform: rotate(360deg); } }
 .is-loading { opacity: .65; pointer-events: none; }
 .is-in { animation: compat-fade .28s var(--ease) both; }
@@ -66,7 +66,8 @@
   display: grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 13px;
   background: var(--grad-teal); box-shadow: var(--sh-teal);
 }
-.brand__mark svg { width: 24px; height: 24px; }
+.brand__mark svg,
+.brand__mark i { width: 24px; height: 24px; font-size: 20px; color: #fff; display: inline-flex; align-items: center; justify-content: center; }
 .brand__mark svg path,
 .brand__mark svg circle { stroke: #fff !important; }
 .brand__text { display: flex; flex-direction: column; min-width: 0; }
@@ -85,7 +86,8 @@
 }
 .search:focus-within { border-color: var(--teal-500); box-shadow: var(--ring); }
 .search__icon { display: grid; place-items: center; flex: none; color: var(--teal-700); }
-.search__icon svg { width: 17px; height: 17px; }
+.search__icon svg,
+.search__icon i { width: 17px; height: 17px; font-size: 16px; display: inline-flex; align-items: center; justify-content: center; }
 .search input { flex: 1 1 auto; min-width: 0; height: 100%; background: none; border: 0; font-size: var(--fs-md); }
 .search input::placeholder { color: #9AA8A4; }
 .search input:focus { outline: none; box-shadow: none; }
@@ -124,7 +126,8 @@
 }
 .nav__item:hover { background: var(--teal-050); color: var(--teal-800); text-decoration: none; }
 .nav__icon { display: grid; place-items: center; flex: none; color: var(--teal-600); }
-.nav__icon svg { width: 20px; height: 20px; }
+.nav__icon svg,
+.nav__icon i { width: 20px; height: 20px; font-size: 18px; display: inline-flex; align-items: center; justify-content: center; }
 .nav__label { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nav__item.is-active {
   color: var(--teal-900); font-weight: 700; box-shadow: inset 0 0 0 1px rgba(20, 163, 152, .16);
@@ -160,6 +163,8 @@
 }
 .mini-stat__head { display: flex; align-items: center; gap: 7px; }
 .mini-stat__icon { display: grid; place-items: center; width: 26px; height: 26px; flex: none; border-radius: 8px; background: var(--teal-050); color: var(--teal-700); }
+.mini-stat__icon svg,
+.mini-stat__icon i { width: 16px; height: 16px; font-size: 15px; display: inline-flex; align-items: center; justify-content: center; }
 .mini-stat__label { font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-soft); }
 .mini-stat__value { font-size: var(--fs-xl); font-weight: 800; color: var(--teal-900); font-variant-numeric: tabular-nums; line-height: 1.1; }
 .mini-stat__sub { font-size: 11px; color: #8C9A96; }
@@ -201,7 +206,8 @@
   display: flex; flex-direction: column; gap: 2px; padding: 8px 9px; background: var(--surface); min-width: 0;
 }
 .kpi-cell__icon { display: grid; place-items: center; }
-.kpi-cell__icon svg { width: 15px; height: 15px; }
+.kpi-cell__icon svg,
+.kpi-cell__icon i { width: 15px; height: 15px; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
 .kpi-cell__label { font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #8C9A96; }
 .kpi-cell__value { font-size: var(--fs-md); font-weight: 800; color: var(--teal-900); font-variant-numeric: tabular-nums; }
 .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--sp-2); }
@@ -552,10 +558,13 @@
 .guide-list { display: flex; flex-direction: column; gap: var(--sp-3); }
 .guide-item { display: flex; align-items: flex-start; gap: var(--sp-3); padding: 11px var(--sp-3); background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: var(--r-md); }
 .guide-item__icon { display: grid; place-items: center; width: 32px; height: 32px; flex: none; border-radius: 10px; color: var(--teal-700); background: var(--teal-050); }
+.guide-item__icon svg,
+.guide-item__icon i { width: 18px; height: 18px; font-size: 16px; display: inline-flex; align-items: center; justify-content: center; }
 .guide-item strong { color: var(--teal-900); }
 .guide-item p { font-size: var(--fs-sm); color: var(--ink-soft); margin-top: 2px; }
 .link-external { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; font-size: var(--fs-xs); word-break: break-all; }
-.link-external svg { width: 13px; height: 13px; }
+.link-external svg,
+.link-external i { width: 13px; height: 13px; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; }
 
 /* ==========================================================================
    K. PENGATURAN
