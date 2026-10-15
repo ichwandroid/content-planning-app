@@ -8,6 +8,8 @@ import { ANALYTICS, APP, DB, DB_READY, PILARS, PLATFORMS, STATUSES } from '../co
 import { fmtCompact, fmtDateTime, fmtDecimal, fmtNumber, fmtPercent } from '../core/format.js';
 import { $, $$, append, el, svgIcon } from '../core/util.js';
 import * as anim from '../lib/anim.js';
+import { sparkline } from '../lib/charts.js';
+import { timeline } from '../analytics/metrics.js';
 
 import * as store from '../data/store.js';
 import { icon, toastError, toastSuccess, toastWarn } from './components.js';
