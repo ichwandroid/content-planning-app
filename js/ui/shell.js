@@ -97,29 +97,57 @@ export function renderConnectionStatus() {
 
 /* ------------------------------ STATISTIK ------------------------------ */
 
+const TONE_ICON_MOD = {
+  teal: '',          // default — no modifier
+  gold: '--gold',
+  blue: '--info',
+  purple: '--violet',
+  cyan: '--info',
+  rose: '--danger',
+};
+
+// Warna sparkline per tone
+const TONE_SPARK_COLOR = {
+  teal: '#0F766E', gold: '#D97706', blue: '#0284C7',
+  purple: '#7C3AED', cyan: '#0891B2', rose: '#E11D48',
+};
+
 export function renderStats() {
   const grid = $('#stats-grid');
   if (!grid) return;
   const s = store.stats();
+  const allRows = store.state.rows;
   const bench = Math.round((Object.values(ANALYTICS.benchmarkER).reduce((a, b) => a + b, 0) / Object.keys(ANALYTICS.benchmarkER).length) * 10) / 10;
   const erTone = s.avgER >= bench ? 'var(--ok)' : 'var(--warn)';
 
+  // Data sparkline: jumlah konten per tanggal (7 titik terakhir dari semua konten)
+  const sparkData = (() => {
+    try {
+      const tl = timeline(allRows, { granularity: 'day', metric: 'reach' });
+      return tl.slice(-7).map((d) => d.count);
+    } catch { return []; }
+  })();
+
   const cards = [
-    { label: 'Total Konten', value: s.total, icon: 'grid', tone: 'teal', sub: `${s.tayang} tayang • ${s.upcoming} terjadwal`, countup: true },
-    { label: 'Terjadwal / Siap', value: s.upcoming, icon: 'clock', tone: 'gold', sub: `${s.ide} masih ide/draf`, countup: true },
-    { label: 'Total Jangkauan', value: s.totalReach, icon: 'eye', tone: 'blue', sub: 'akumulasi views', countup: true, compact: true },
-    { label: 'Rata-rata ER', value: s.avgER, icon: 'chart', tone: 'purple', sub: `benchmark ±${fmtPercent(bench)}`, decimals: 2, suffix: '%', toneText: erTone },
-    { label: 'Klik Link', value: s.klik, icon: 'link', tone: 'cyan', sub: `${fmtCompact(s.totalEngage)} interaksi`, countup: true, compact: true },
-    { label: 'Pendaftar', value: s.pendaftar, icon: 'users', tone: 'rose', sub: 'dari konten PPDB', countup: true },
+    { label: 'Total Konten',   value: s.total,      icon: 'grid',  tone: 'teal',   sub: `${s.tayang} tayang • ${s.upcoming} terjadwal`, countup: true },
+    { label: 'Terjadwal/Siap', value: s.upcoming,   icon: 'clock', tone: 'gold',   sub: `${s.ide} masih ide/draf`,  countup: true },
+    { label: 'Total Jangkauan',value: s.totalReach,  icon: 'eye',   tone: 'blue',   sub: 'akumulasi views', countup: true, compact: true },
+    { label: 'Rata-rata ER',   value: s.avgER,       icon: 'chart', tone: 'purple', sub: `benchmark ±${fmtPercent(bench)}`, decimals: 2, suffix: '%', toneText: erTone },
+    { label: 'Klik Link',      value: s.klik,        icon: 'link',  tone: 'cyan',   sub: `${fmtCompact(s.totalEngage)} interaksi`, countup: true, compact: true },
+    { label: 'Pendaftar',      value: s.pendaftar,   icon: 'users', tone: 'rose',   sub: 'dari konten PPDB', countup: true },
   ];
 
   grid.innerHTML = '';
   cards.forEach((c) => {
-    const card = el('article', { class: `stat-card stat-card--${c.tone}`, dataset: { animView: '' } });
-    const top = el('div', { class: 'stat-card__top' });
-    const ic = el('span', { class: 'stat-card__icon' });
+    const card = el('article', { class: `stat-card stat-card--${c.tone}` });
+
+    // — Baris atas: ikon + label
+    const head = el('div', { class: 'stat-card__head' });
+    const ic = el('span', { class: `stat-card__icon${TONE_ICON_MOD[c.tone] ? ` stat-card__icon${TONE_ICON_MOD[c.tone]}` : ''}` });
     ic.innerHTML = svgIcon(c.icon, 18);
-    append(top, ic, el('span', { class: 'stat-card__label', text: c.label }));
+    append(head, ic, el('span', { class: 'stat-card__label', text: c.label }));
+
+    // — Nilai utama
     const val = el('strong', { class: 'stat-card__value' });
     if (c.countup) {
       val.dataset.countup = String(c.value);
@@ -129,9 +157,20 @@ export function renderStats() {
       val.textContent = `${fmtDecimal(c.value)}${c.suffix || ''}`;
     }
     if (c.toneText) val.style.color = c.toneText;
-    append(card, top, val, el('span', { class: 'stat-card__sub', text: c.sub }));
+
+    // — Baris bawah: sub-teks + sparkline
+    const foot = el('div', { class: 'stat-card__foot' });
+    append(foot, el('span', { class: 'stat-card__sub', text: c.sub }));
+    if (sparkData.length >= 2) {
+      const sparkWrap = el('span', { class: 'stat-card__spark' });
+      sparkWrap.append(sparkline(sparkData, { width: 72, height: 28, color: TONE_SPARK_COLOR[c.tone] || '#0F766E' }));
+      foot.append(sparkWrap);
+    }
+
+    append(card, head, val, foot);
     append(grid, card);
   });
+
   anim.countUpAll(grid);
 }
 

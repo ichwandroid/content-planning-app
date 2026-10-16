@@ -242,12 +242,17 @@
   display: inline-flex; align-items: center; gap: 5px; height: 24px; padding: 0 10px; font-size: var(--fs-xs);
   font-weight: 700; color: var(--cp, var(--teal-800)); background: color-mix(in srgb, var(--cp, var(--teal-600)) 12%, #fff);
   border: 1px solid color-mix(in srgb, var(--cp, var(--teal-600)) 26%, #fff); border-radius: var(--r-full);
-  white-space: nowrap; max-width: 100%;
+  white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis;
 }
 .chip--soft { color: var(--ink-soft); background: var(--sand); border-color: var(--line); }
 .chip--cta { background: color-mix(in srgb, var(--cp, #C9A227) 13%, #fff); }
-.cc-pic { display: inline-flex; align-items: center; gap: 5px; margin-left: auto; font-size: var(--fs-xs); font-weight: 600; color: var(--ink-soft); }
-.cc-pic .avatar { width: 22px; height: 22px; font-size: 10px; }
+.cc-meta {
+  display: flex; align-items: center; gap: 6px 8px; flex-wrap: wrap;
+  padding: 0 var(--sp-4); margin-top: var(--sp-3); min-width: 0;
+}
+.cc-pic { display: inline-flex; align-items: center; gap: 5px; margin-left: auto; font-size: var(--fs-xs); font-weight: 600; color: var(--ink-soft); max-width: 100%; }
+.cc-pic .avatar { width: 22px; height: 22px; font-size: 10px; flex: none; }
+.cc-pic span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cc-pic--empty { font-style: italic; color: #9AA8A4; }
 .cc-tags { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0; }
 .cc-title-row { display: flex; align-items: flex-start; gap: var(--sp-3); padding: var(--sp-4) var(--sp-4) 0; }

@@ -384,6 +384,10 @@ textarea:focus-visible { outline: none; border-color: var(--teal-500); box-shado
 .view-head__text { min-width: 0; }
 .view-head h1,
 .view-title { font-size: var(--fs-2xl); font-weight: 800; letter-spacing: -.02em; }
+.view-head h1 .fa-solid, .view-head h1 .fa-brands,
+.view-head h2 .fa-solid, .view-head h2 .fa-brands {
+  font-size: 0.82em; opacity: .75; vertical-align: middle; margin-right: 6px;
+}
 .view-head p,
 .view-desc { margin-top: 4px; max-width: 74ch; font-size: var(--fs-md); color: var(--ink-soft); }
 .view-head__actions,
@@ -392,39 +396,49 @@ textarea:focus-visible { outline: none; border-color: var(--teal-500); box-shado
   display: inline-flex; align-items: center; gap: 6px; margin-bottom: 6px; font-size: 11px; font-weight: 800;
   letter-spacing: .12em; text-transform: uppercase; color: var(--gold-500);
 }
+/* Planner dashboard container — tersembunyi otomatis saat kosong */
+.planner-dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--sp-4); margin-bottom: var(--sp-5); }
+.planner-dashboard:empty { display: none; }
 /* ==========================================================================
    09. STATISTIK (.stats-grid / .stat-card)
    ========================================================================== */
 .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: var(--sp-4); }
 .stats-grid .stat-card,
 .stat-card {
-  position: relative; display: flex; flex-direction: column; gap: 10px; padding: var(--sp-4);
+  position: relative; display: flex; flex-direction: column; gap: 8px; padding: var(--sp-4);
   background: linear-gradient(180deg, #fff, var(--surface-2)); border: 1px solid var(--line);
   border-radius: var(--r-lg); box-shadow: var(--sh-1); overflow: hidden;
   transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 .stat-card::after { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--grad-teal); opacity: .85; }
+/* Tone accent bar per kartu */
+.stat-card--gold::after   { background: linear-gradient(90deg, #F59E0B, #D97706); }
+.stat-card--blue::after   { background: linear-gradient(90deg, #38BDF8, #0284C7); }
+.stat-card--purple::after { background: linear-gradient(90deg, #A78BFA, #7C3AED); }
+.stat-card--cyan::after   { background: linear-gradient(90deg, #22D3EE, #0891B2); }
+.stat-card--rose::after   { background: linear-gradient(90deg, #FB7185, #E11D48); }
 .stat-card:hover { transform: translateY(-2px); box-shadow: var(--sh-2); }
-.stat-card__head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); }
-.stat-card__label { font-size: var(--fs-xs); font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-soft); }
+.stat-card__head { display: flex; align-items: center; gap: var(--sp-2); }
+.stat-card__label { font-size: var(--fs-xs); font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-soft); line-height: 1.3; }
 .stat-card__icon {
   display: grid; place-items: center; width: 36px; height: 36px; flex: none; border-radius: 12px;
   color: var(--teal-700); background: var(--teal-050); border: 1px solid var(--teal-100);
 }
 .stat-card__icon svg,
 .stat-card__icon i { width: 19px; height: 19px; font-size: 18px; display: inline-flex; align-items: center; justify-content: center; }
-.stat-card__icon--gold { color: #7A5A05; background: #FDF6E4; border-color: #EBD79B; }
-.stat-card__icon--ok { color: #047857; background: #E7F8F1; border-color: #C6EFDF; }
-.stat-card__icon--info { color: #0369A1; background: #E6F3FD; border-color: #C7E4F8; }
+.stat-card__icon--gold   { color: #7A5A05; background: #FDF6E4; border-color: #EBD79B; }
+.stat-card__icon--ok     { color: #047857; background: #E7F8F1; border-color: #C6EFDF; }
+.stat-card__icon--info   { color: #0369A1; background: #E6F3FD; border-color: #C7E4F8; }
 .stat-card__icon--danger { color: #9F1239; background: #FDE8ED; border-color: #F8CBD7; }
-.stat-card__icon--warn { color: #92400E; background: #FEF3D7; border-color: #F5DFA6; }
+.stat-card__icon--warn   { color: #92400E; background: #FEF3D7; border-color: #F5DFA6; }
 .stat-card__icon--violet { color: #5B21B6; background: #F1EBFE; border-color: #DDD0FB; }
 .stat-card__value,
 .stat-value {
   font-size: var(--fs-3xl); font-weight: 800; line-height: 1.05; letter-spacing: -.02em; color: var(--teal-900);
   font-variant-numeric: tabular-nums;
 }
-.stat-card__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); }
+.stat-card__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); margin-top: auto; }
+.stat-card__sub  { font-size: var(--fs-xs); color: var(--ink-soft); line-height: 1.4; }
 .stat-delta,
 .delta {
   display: inline-flex; align-items: center; gap: 4px; font-size: var(--fs-sm); font-weight: 700;
@@ -434,9 +448,9 @@ textarea:focus-visible { outline: none; border-color: var(--teal-500); box-shado
 .delta--down, .delta.is-down, .stat-delta--down { color: #BE123C; }
 .delta--flat, .stat-delta--flat { color: var(--ink-soft); }
 .stat-card__spark,
-.sparkline-wrap { flex: none; height: 34px; }
+.sparkline-wrap { flex: none; height: 28px; }
 .stat-card__spark .sparkline,
-.sparkline-wrap .sparkline { width: 120px; height: 34px; overflow: visible; }
+.sparkline-wrap .sparkline { width: 72px; height: 28px; overflow: visible; }
 /* ==========================================================================
    10. PANEL / KARTU UMUM (.panel)
    ========================================================================== */
@@ -463,7 +477,7 @@ textarea:focus-visible { outline: none; border-color: var(--teal-500); box-shado
 /* ==========================================================================
    11. TOOLBAR (sticky di bawah topbar)
    ========================================================================== */
-.toolbar-sentinel { height: 1px; margin-top: -1px; }
+.toolbar-sentinel { height: 1px; margin-top: 10px; }
 .toolbar {
   position: sticky; top: var(--topbar-h); z-index: var(--z-sticky); display: flex; align-items: center;
   gap: var(--sp-3); flex-wrap: wrap; padding: 11px var(--sp-4); background: rgba(255, 255, 255, .9);
@@ -541,6 +555,7 @@ textarea:focus-visible { outline: none; border-color: var(--teal-500); box-shado
   display: grid; gap: var(--sp-4); perspective: 1400px;
   /* induk untuk efek tilt --rx/--ry dari attachCardTilt() */
   min-width: 0;
+  margin-top: var(--sp-4); margin-bottom: var(--sp-5);
 }
 .planner-grid[data-layout="grid"] { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); align-items: start; }
 .planner-grid[data-layout="list"] { grid-template-columns: minmax(0, 1fr); }
@@ -556,6 +571,7 @@ textarea:focus-visible { outline: none; border-color: var(--teal-500); box-shado
 .content-card {
   --rx: 0deg; --ry: 0deg; position: relative; display: flex; flex-direction: column; min-width: 0;
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--sh-1);
+  overflow: hidden;
   transform: perspective(1200px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(0); transform-style: flat;
   transition: transform .32s var(--ease), box-shadow var(--dur) var(--ease),
               border-color var(--dur) var(--ease);
@@ -584,15 +600,26 @@ textarea:focus-visible { outline: none; border-color: var(--teal-500); box-shado
 .cc-head__badges,
 .cc-badges { display: flex; align-items: center; gap: 6px; flex: 1 1 auto; flex-wrap: wrap; min-width: 0; }
 .cc-head__tools { display: flex; align-items: center; gap: 4px; flex: none; margin-left: auto; }
-.cc-meta,
 .cc-date {
   display: flex; align-items: center; gap: 6px; flex: 1 1 100%; font-size: var(--fs-xs); font-weight: 600;
   color: var(--ink-soft);
 }
+.cc-date svg,
+.cc-date i { width: 14px; height: 14px; font-size: 13px; color: var(--teal-600); flex: none; display: inline-flex; align-items: center; justify-content: center; }
+.cc-date__sep { color: #B9C2BF; }
+
+/* --- Metadata / Chips pada kartu --- */
+.cc-meta {
+  display: flex; align-items: center; gap: 6px 8px; flex-wrap: wrap;
+  padding: 0 var(--sp-4); margin-top: var(--sp-3); min-width: 0;
+}
+.cc-meta .chip { max-width: 100%; }
 .cc-meta svg,
 .cc-meta i { width: 14px; height: 14px; font-size: 13px; color: var(--teal-600); flex: none; display: inline-flex; align-items: center; justify-content: center; }
 .cc-meta__sep { color: #B9C2BF; }
-.cc-meta__pic { display: inline-flex; align-items: center; gap: 5px; margin-left: auto; }
+.cc-meta__pic,
+.cc-pic { display: inline-flex; align-items: center; gap: 5px; margin-left: auto; font-size: var(--fs-xs); font-weight: 600; color: var(--ink-soft); }
+
 /* --- Badge platform & status --- */
 .pf-badge {
   display: inline-flex; align-items: center; gap: 5px; height: 24px; padding: 0 9px; font-size: 11px;
@@ -621,9 +648,11 @@ textarea:focus-visible { outline: none; border-color: var(--teal-500); box-shado
 .status-pill[data-status="arsip"] { color: #475569; background: var(--c-arsip-soft); }
 /* --- Body kartu --- */
 .cc-body { display: flex; flex-direction: column; gap: 11px; padding: var(--sp-4); min-width: 0; }
+.content-card .cc-caption,
 .cc-caption {
   font-size: var(--fs-md); line-height: 1.6; color: var(--ink-soft); display: -webkit-box; -webkit-line-clamp: 3;
   line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  padding: 0 var(--sp-4); margin-top: var(--sp-3); margin-bottom: 0;
 }
 .cc-caption:empty::before { content: "Belum ada caption."; color: #9AA8A4; font-style: italic; }
 .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -635,8 +664,9 @@ textarea:focus-visible { outline: none; border-color: var(--teal-500); box-shado
 .tag--gold { color: #7A5A05; background: #FDF6E4; border-color: #EBD79B; }
 .tag--muted { color: var(--ink-soft); background: var(--sand); border-color: var(--line); }
 .tag-list--hashtag .tag { font-family: var(--font-mono); font-size: 11px; }
+.content-card .cta-box,
 .cta-box {
-  display: flex; align-items: flex-start; gap: 9px; padding: 11px var(--sp-3);
+  display: flex; align-items: flex-start; gap: 9px; padding: 11px var(--sp-3); margin: var(--sp-3) var(--sp-4) 0;
   background: linear-gradient(135deg, rgba(201, 162, 39, .09), rgba(224, 185, 68, .04)); border: 1px solid #EEDFB4;
   border-left: 3px solid var(--gold-500); border-radius: var(--r-md);
 }
@@ -652,9 +682,10 @@ textarea:focus-visible { outline: none; border-color: var(--teal-500); box-shado
   color: var(--teal-700); word-break: break-all;
 }
 /* --- KPI strip --- */
+.content-card .kpi-strip,
 .kpi-strip,
 .cc-kpi {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(66px, 1fr)); gap: 1px; margin: 0 var(--sp-4);
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(66px, 1fr)); gap: 1px; margin: var(--sp-3) var(--sp-4) 0;
   background: var(--line-soft); border: 1px solid var(--line-soft); border-radius: var(--r-md); overflow: hidden;
 }
 .kpi-cell {
@@ -1637,7 +1668,7 @@ tipografi label & perilaku (pointer/titik). */
 .u-shadow-2 { box-shadow: var(--sh-2) !important; }
 .u-shadow-3 { box-shadow: var(--sh-3) !important; }
 .u-radius-lg { border-radius: var(--r-lg) !important; }
-.u-no-print { }
+@media print { .u-no-print { display: none !important; } }
 body.no-scroll { overflow: hidden; }
 /* ==========================================================================
    27. RESPONSIF

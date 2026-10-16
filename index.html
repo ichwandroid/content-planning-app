@@ -29,7 +29,7 @@
 <div id="boot-overlay" class="boot-overlay" role="status" aria-live="polite">
   <div class="boot-inner">
     <div class="boot-logo" aria-hidden="true">
-      <i class="fa-solid fa-graduation-cap" role="img" aria-label="Logo Sekolah Anak Saleh"></i>
+      <i class="fa-solid fa-icons"></i>
     </div>
     <h1 class="boot-title"><span>Content</span> <span>Planner</span> <span>Sekolah</span> <span>Anak</span> <span>Saleh</span></h1>
     <p class="boot-sub">Rencanakan • Tambahkan CTA • Tayangkan • Ukur hasilnya</p>
@@ -46,7 +46,7 @@
       <button class="icon-btn sidebar-toggle" id="btn-sidebar" type="button" aria-label="Buka menu" aria-expanded="false"></button>
       <a class="brand" href="#planner">
         <span class="brand__mark" aria-hidden="true">
-          <i class="fa-solid fa-graduation-cap"></i>
+          <i class="fa-solid fa-icons"></i>
         </span>
         <span class="brand__text">
           <strong id="brand-title">Content Planner</strong>
@@ -110,19 +110,33 @@
     <section class="view" id="view-planner" aria-labelledby="planner-title">
       <div class="view-head" data-anim-view>
         <div>
-          <h2 id="planner-title">Planner Konten</h2>
+          <h2 id="planner-title">
+            <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+            Planner Konten
+          </h2>
           <p class="muted">Rencanakan konten, lengkapi CTA, lalu pantau performanya dalam satu tempat.</p>
         </div>
         <div class="view-head__actions">
-          <button class="btn btn--ghost btn--sm" id="btn-export-csv" type="button">Ekspor CSV</button>
-          <button class="btn btn--gold btn--sm" id="btn-ideas" type="button">Ide Konten AI</button>
+          <button class="btn btn--ghost btn--sm" id="btn-export-csv" type="button">
+            <i class="fa-solid fa-file-csv" aria-hidden="true"></i>
+            Ekspor CSV
+          </button>
+          <button class="btn btn--gold btn--sm" id="btn-ideas" type="button">
+            <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
+            Ide Konten AI
+          </button>
         </div>
       </div>
 
+      <!-- Statistik ringkasan (diisi oleh shell.js › renderStats) -->
       <div class="stats-grid" id="stats-grid"></div>
 
+      <!-- Dashboard mini-grafik (diisi oleh planner.js › renderPlannerDashboard) -->
+      <div class="planner-dashboard" id="planner-dashboard" aria-label="Ringkasan grafik konten"></div>
+
+      <!-- Toolbar sticky: urutan & rentang waktu -->
       <div class="toolbar-sentinel" id="toolbar-sentinel" aria-hidden="true"></div>
-      <div class="toolbar" id="toolbar">
+      <div class="toolbar" id="toolbar" role="toolbar" aria-label="Opsi tampilan planner">
         <div class="toolbar__group">
           <label class="select-wrap">
             <span class="sr-only">Urutkan</span>
@@ -146,7 +160,10 @@
               <option value="90">90 hari terakhir</option>
             </select>
           </label>
-          <button class="btn btn--ghost btn--sm" id="btn-filters" type="button" aria-expanded="false">Filter lanjutan</button>
+          <button class="btn btn--ghost btn--sm" id="btn-filters" type="button" aria-expanded="false" aria-controls="filter-bar">
+            <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+            Filter lanjutan
+          </button>
         </div>
         <div class="toolbar__group">
           <span class="toolbar__count" id="result-count">0 konten</span>
@@ -158,28 +175,65 @@
         </div>
       </div>
 
+      <!-- Filter lanjutan -->
       <div class="filter-bar is-collapsed" id="filter-bar" hidden>
-        <div class="filter-group" data-filter="platform"><span class="filter-group__label">Platform</span><div class="filter-chips" data-chips="platform"></div></div>
-        <div class="filter-group" data-filter="status"><span class="filter-group__label">Status</span><div class="filter-chips" data-chips="status"></div></div>
-        <div class="filter-group" data-filter="pilar"><span class="filter-group__label">Pilar</span><div class="filter-chips" data-chips="pilar"></div></div>
-        <div class="filter-group" data-filter="pic"><span class="filter-group__label">PIC</span><div class="filter-chips" data-chips="pic"></div></div>
+        <div class="filter-group" data-filter="platform">
+          <span class="filter-group__label">
+            <i class="fa-solid fa-layer-group" aria-hidden="true"></i> Platform
+          </span>
+          <div class="filter-chips" data-chips="platform"></div>
+        </div>
+        <div class="filter-group" data-filter="status">
+          <span class="filter-group__label">
+            <i class="fa-solid fa-circle-dot" aria-hidden="true"></i> Status
+          </span>
+          <div class="filter-chips" data-chips="status"></div>
+        </div>
+        <div class="filter-group" data-filter="pilar">
+          <span class="filter-group__label">
+            <i class="fa-solid fa-tag" aria-hidden="true"></i> Pilar
+          </span>
+          <div class="filter-chips" data-chips="pilar"></div>
+        </div>
+        <div class="filter-group" data-filter="pic">
+          <span class="filter-group__label">
+            <i class="fa-solid fa-user-tie" aria-hidden="true"></i> PIC
+          </span>
+          <div class="filter-chips" data-chips="pic"></div>
+        </div>
         <div class="filter-group filter-group--actions">
-          <button class="btn btn--ghost btn--sm" id="btn-reset-filter" type="button">Reset filter</button>
+          <button class="btn btn--ghost btn--sm" id="btn-reset-filter" type="button">
+            <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+            Reset filter
+          </button>
         </div>
       </div>
 
-      <div class="bulk-bar is-hidden" id="bulk-bar">
+      <!-- Aksi massal (muncul saat konten terpilih) -->
+      <div class="bulk-bar is-hidden" id="bulk-bar" role="toolbar" aria-label="Aksi massal">
         <span id="bulk-count">0 dipilih</span>
         <div class="bulk-bar__actions">
-          <button class="btn btn--ghost btn--sm" data-bulk-status="review" type="button">Tandai Review</button>
-          <button class="btn btn--ghost btn--sm" data-bulk-status="siap" type="button">Tandai Siap</button>
-          <button class="btn btn--ghost btn--sm" data-bulk-status="tayang" type="button">Tandai Tayang</button>
-          <button class="btn btn--danger btn--sm" id="btn-bulk-delete" type="button">Hapus</button>
-          <button class="btn btn--ghost btn--sm" id="btn-clear-selection" type="button">Batal</button>
+          <button class="btn btn--ghost btn--sm" data-bulk-status="review" type="button">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Tandai Review
+          </button>
+          <button class="btn btn--ghost btn--sm" data-bulk-status="siap" type="button">
+            <i class="fa-solid fa-check" aria-hidden="true"></i> Tandai Siap
+          </button>
+          <button class="btn btn--ghost btn--sm" data-bulk-status="tayang" type="button">
+            <i class="fa-solid fa-broadcast-tower" aria-hidden="true"></i> Tandai Tayang
+          </button>
+          <button class="btn btn--danger btn--sm" id="btn-bulk-delete" type="button">
+            <i class="fa-solid fa-trash" aria-hidden="true"></i> Hapus
+          </button>
+          <button class="btn btn--ghost btn--sm" id="btn-clear-selection" type="button">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i> Batal
+          </button>
         </div>
       </div>
 
+      <!-- Grid konten (grid / list / board — diisi oleh planner.js) -->
       <div class="planner-grid" id="planner-grid" data-layout="grid"></div>
+
     </section>
 
     <!-- =========================== VIEW: CALENDAR ======================= -->
